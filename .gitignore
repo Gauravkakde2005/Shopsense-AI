@@ -1,0 +1,16 @@
+node_modules/
+frontend/node_modules/
+frontend/dist/
+backend/.venv/
+backend/__pycache__/
+backend/app/__pycache__/
+backend/app/providers/__pycache__/
+backend/app/services/__pycache__/
+backend/app/workflows/__pycache__/
+backend/tests/__pycache__/
+*.pyc
+.env
+.DS_Store
+.venv
+
+

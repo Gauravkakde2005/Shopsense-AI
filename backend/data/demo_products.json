@@ -1,0 +1,188 @@
+[
+  {
+    "product_id": "watch_titan_black_01",
+    "canonical_product_name": "Titan Analog Watch",
+    "brand": "Titan",
+    "category": "Watch",
+    "model_number": "Titan Black Dial",
+    "description": "Fictional demo watch for everyday college use.",
+    "image_url": "https://images.example.com/titan-black-watch.jpg",
+    "attributes": {
+      "dial_color": "black",
+      "strap_material": "metal",
+      "use_case": "daily wear",
+      "water_resistance": "5 ATM"
+    },
+    "source_provider": "demo_provider",
+    "source_product_url": "https://demo.example.com/products/watch_titan_black_01",
+    "retrieval_timestamp": "2026-10-13T12:00:00Z",
+    "dataset_label": "demo",
+    "rating": 4.4,
+    "review_count": 946,
+    "review_summary": {
+      "positive_themes": ["attractive design", "comfortable", "good value"],
+      "negative_themes": ["strap could be lighter", "limited long-term durability data"],
+      "sentiment_score": 78,
+      "reviews_analyzed": 120
+    },
+    "offers": [
+      {
+        "offer_id": "offer_titan_black_amazon",
+        "product_id": "watch_titan_black_01",
+        "retailer_name": "Amazon",
+        "retailer_product_url": "https://demo.example.com/offer/titan-black-amazon",
+        "currency": "INR",
+        "listed_price": 3999,
+        "discounted_price": 3499,
+        "shipping_cost": 0,
+        "availability": "In stock",
+        "offer_timestamp": "2026-10-13T12:00:00Z",
+        "source_type": "demo",
+        "verification_status": "demo_data"
+      },
+      {
+        "offer_id": "offer_titan_black_flipkart",
+        "product_id": "watch_titan_black_01",
+        "retailer_name": "Flipkart",
+        "retailer_product_url": "https://demo.example.com/offer/titan-black-flipkart",
+        "currency": "INR",
+        "listed_price": 4200,
+        "discounted_price": 3699,
+        "shipping_cost": 49,
+        "availability": "In stock",
+        "offer_timestamp": "2026-10-13T12:00:00Z",
+        "source_type": "demo",
+        "verification_status": "demo_data"
+      }
+    ]
+  },
+  {
+    "product_id": "watch_titan_blue_02",
+    "canonical_product_name": "Titan Blue Dial Watch",
+    "brand": "Titan",
+    "category": "Watch",
+    "model_number": "Titan Blue Dial",
+    "description": "A stylish blue dial watch for everyday wear with lighter styling.",
+    "image_url": "https://images.example.com/titan-blue-watch.jpg",
+    "attributes": {
+      "dial_color": "blue",
+      "strap_material": "leather",
+      "use_case": "daily wear",
+      "water_resistance": "3 ATM"
+    },
+    "source_provider": "demo_provider",
+    "source_product_url": "https://demo.example.com/products/watch_titan_blue_02",
+    "retrieval_timestamp": "2026-10-13T12:00:00Z",
+    "dataset_label": "demo",
+    "rating": 4.2,
+    "review_count": 612,
+    "review_summary": {
+      "positive_themes": ["smart look", "comfortable strap", "budget friendly"],
+      "negative_themes": ["less durable", "dial scratches easy"],
+      "sentiment_score": 72,
+      "reviews_analyzed": 90
+    },
+    "offers": [
+      {
+        "offer_id": "offer_titan_blue_flipkart",
+        "product_id": "watch_titan_blue_02",
+        "retailer_name": "Flipkart",
+        "retailer_product_url": "https://demo.example.com/offer/titan-blue-flipkart",
+        "currency": "INR",
+        "listed_price": 2899,
+        "discounted_price": 2599,
+        "shipping_cost": 0,
+        "availability": "In stock",
+        "offer_timestamp": "2026-10-13T12:00:00Z",
+        "source_type": "demo",
+        "verification_status": "demo_data"
+      }
+    ]
+  },
+  {
+    "product_id": "watch_noise_03",
+    "canonical_product_name": "Noise Smart Watch",
+    "brand": "Noise",
+    "category": "Watch",
+    "model_number": "Noise Pulse Pro",
+    "description": "Fictional smartwatch with health tracking and sporty features.",
+    "image_url": "https://images.example.com/noise-watch.jpg",
+    "attributes": {
+      "dial_color": "black",
+      "strap_material": "silicone",
+      "use_case": "fitness",
+      "water_resistance": "5 ATM"
+    },
+    "source_provider": "demo_provider",
+    "source_product_url": "https://demo.example.com/products/watch_noise_03",
+    "retrieval_timestamp": "2026-10-13T12:00:00Z",
+    "dataset_label": "demo",
+    "rating": 4.5,
+    "review_count": 2100,
+    "review_summary": {
+      "positive_themes": ["battery life", "fitness tracking", "display quality"],
+      "negative_themes": ["strap feels bulky", "app sync issues"],
+      "sentiment_score": 81,
+      "reviews_analyzed": 155
+    },
+    "offers": [
+      {
+        "offer_id": "offer_noise_amazon",
+        "product_id": "watch_noise_03",
+        "retailer_name": "Amazon",
+        "retailer_product_url": "https://demo.example.com/offer/noise-watch-amazon",
+        "currency": "INR",
+        "listed_price": 4999,
+        "discounted_price": 4499,
+        "shipping_cost": 49,
+        "availability": "In stock",
+        "offer_timestamp": "2026-10-13T12:00:00Z",
+        "source_type": "demo",
+        "verification_status": "demo_data"
+      }
+    ]
+  },
+  {
+    "product_id": "watch_fasttrack_04",
+    "canonical_product_name": "Fasttrack Metal Watch",
+    "brand": "Fasttrack",
+    "category": "Watch",
+    "model_number": "Fasttrack Urban",
+    "description": "Demonstration metal strap watch with a bold look.",
+    "image_url": "https://images.example.com/fasttrack-watch.jpg",
+    "attributes": {
+      "dial_color": "black",
+      "strap_material": "metal",
+      "use_case": "daily wear",
+      "water_resistance": "3 ATM"
+    },
+    "source_provider": "demo_provider",
+    "source_product_url": "https://demo.example.com/products/watch_fasttrack_04",
+    "retrieval_timestamp": "2026-10-13T12:00:00Z",
+    "dataset_label": "demo",
+    "rating": 4.1,
+    "review_count": 410,
+    "review_summary": {
+      "positive_themes": ["style", "metal finish", "good appearance"],
+      "negative_themes": ["slightly heavy", "average comfort"],
+      "sentiment_score": 68,
+      "reviews_analyzed": 64
+    },
+    "offers": [
+      {
+        "offer_id": "offer_fasttrack_amazon",
+        "product_id": "watch_fasttrack_04",
+        "retailer_name": "Amazon",
+        "retailer_product_url": "https://demo.example.com/offer/fasttrack-amazon",
+        "currency": "INR",
+        "listed_price": 2999,
+        "discounted_price": 2799,
+        "shipping_cost": 0,
+        "availability": "In stock",
+        "offer_timestamp": "2026-10-13T12:00:00Z",
+        "source_type": "demo",
+        "verification_status": "demo_data"
+      }
+    ]
+  }
+]
