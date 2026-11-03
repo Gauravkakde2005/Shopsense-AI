@@ -10,6 +10,7 @@ from pydantic import BaseModel, Field
 from app.config import provider_status
 from app.providers.live_provider import ProviderConfigurationError, ProviderRequestError
 from app.services.ranking import rank_products
+from app.services.llm import answer_product_question, generation_error
 from app.services.store import add_search_history, get_saved_products, get_search_history, remove_product, save_product
 from app.workflows.agent_workflow import run_workflow
 
@@ -29,6 +30,27 @@ class SearchBody(BaseModel):
     query: str = Field(..., min_length=3, max_length=500)
 
 
+class AssistantMessage(BaseModel):
+    role: str = Field(..., pattern="^(user|assistant)$")
+    content: str = Field(..., min_length=1, max_length=4000)
+
+
+class AssistantBody(BaseModel):
+    searched_product: str = Field(default="", max_length=500)
+    products: List[Dict[str, Any]] = Field(default_factory=list, max_length=100)
+    parsed_requirements: Dict[str, Any] = Field(default_factory=dict)
+    comparison: List[Dict[str, Any]] = Field(default_factory=list, max_length=5)
+    messages: List[AssistantMessage] = Field(..., min_length=1, max_length=100)
+
+
+PRODUCT_SCOPE_REPLY = "I am your AI Product Assistant. I can only answer questions related to the products currently displayed. Please ask about the searched products."
+
+
+def _is_simple_greeting(message: str) -> bool:
+    normalized = " ".join(message.lower().strip().split()).strip("!.,?")
+    return normalized in {"hi", "hello", "hey", "hi there", "hello there", "hey there"}
+
+
 @app.get("/api/health")
 def health() -> Dict[str, Any]:
     return {
@@ -43,6 +65,25 @@ def health() -> Dict[str, Any]:
 def providers() -> List[Dict[str, Any]]:
     status = provider_status()
     return [{"name": "serpapi_google_shopping", "mode": "authorized_api", "status": status["product_search_status"], "label": "live_web"}]
+
+
+@app.post("/api/assistant/chat")
+def assistant_chat(body: AssistantBody) -> Dict[str, str]:
+    latest_message = body.messages[-1].content
+    if _is_simple_greeting(latest_message):
+        return {"answer": PRODUCT_SCOPE_REPLY}
+    if not provider_status()["llm_status"] == "configured":
+        raise HTTPException(status_code=503, detail="Groq is not configured. Set GROQ_API_KEY in backend/.env.")
+    answer = answer_product_question(
+        searched_product=body.searched_product,
+        products=body.products,
+        messages=[message.model_dump() for message in body.messages],
+        parsed_requirements=body.parsed_requirements,
+        comparison=body.comparison,
+    )
+    if not answer:
+        raise HTTPException(status_code=502, detail=generation_error() or "Gemini could not answer this product question right now.")
+    return {"answer": answer}
 
 
 @app.post("/api/search")

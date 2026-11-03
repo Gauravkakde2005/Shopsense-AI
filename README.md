@@ -54,7 +54,7 @@ The default provider is SerpApi's Google Shopping API. It returns product titles
 
 Set `SERPAPI_KEY` in `backend/.env`. Without it, search returns a clear configuration error and does not fall back to the old demo catalog.
 
-`GEMINI_API_KEY` is optional. When configured, Gemini improves intent extraction and explanations through the `generateContent` API. The prompt restricts explanations to retrieved facts; deterministic parsing and explanations remain available without an LLM.
+`GROQ_API_KEY` powers the Product Assistant through Groq's OpenAI-compatible chat-completions API. The prompt restricts answers to retrieved product facts. Set `GROQ_MODEL` to an available Groq model such as `openai/gpt-oss-120b`.
 
 Voice input uses the browser Web Speech API and read-aloud uses `speechSynthesis`; Chrome and Edge provide the best support.
 

@@ -7,7 +7,7 @@ from typing import Any, Dict, List
 
 import httpx
 
-from app.config import AI_REQUEST_TIMEOUT_SECONDS, SERPAPI_KEY, SERPAPI_LOCATION
+from app.config import AI_REQUEST_TIMEOUT_SECONDS, SERPAPI_KEY, SERPAPI_LOCATION, SERPAPI_RESULT_LIMIT
 
 
 class ProviderConfigurationError(RuntimeError):
@@ -95,6 +95,7 @@ def search_products(query: str) -> List[Dict[str, Any]]:
         "q": query,
         "api_key": SERPAPI_KEY,
         "location": SERPAPI_LOCATION,
+        "num": SERPAPI_RESULT_LIMIT,
         "hl": "en",
         "gl": "in",
     }
@@ -113,4 +114,4 @@ def search_products(query: str) -> List[Dict[str, Any]]:
         raise ProviderRequestError(str(payload["error"]))
 
     products = [_normalize_result(item) for item in payload.get("shopping_results", [])]
-    return [product for product in products if product is not None]
+    return [product for product in products if product is not None][:SERPAPI_RESULT_LIMIT]

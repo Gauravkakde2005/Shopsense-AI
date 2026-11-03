@@ -1,8 +1,6 @@
 import re
 from typing import Any, Dict
 
-from app.services.llm import enhance_intent
-
 
 def understand_intent(query: str) -> Dict[str, Any]:
     text = (query or "").strip()
@@ -31,4 +29,4 @@ def understand_intent(query: str) -> Dict[str, Any]:
         "dial_color": dial_color,
         "weights": {"rating": 0.3, "review": 0.25, "value": 0.25, "preference": 0.2},
     }
-    return enhance_intent(text, baseline)
+    return baseline

@@ -12,8 +12,10 @@ import {
   Star,
   TrendingUp,
   Volume2,
+  X,
 } from 'lucide-react'
 import { BarChart, Bar, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
+import ProductAssistant from './components/ProductAssistant'
 
 const API_URL = 'http://localhost:8000'
 
@@ -42,6 +44,7 @@ function App() {
   const [error, setError] = useState('')
   const [listening, setListening] = useState(false)
   const [sourceStatus, setSourceStatus] = useState('Checking live provider')
+  const [showInsights, setShowInsights] = useState(false)
 
   async function handleSearch(value = query) {
     setLoading(true)
@@ -412,46 +415,20 @@ function App() {
             </div>
 
             <aside id="insights" className="space-y-5">
-              <div className="rounded-[1.5rem] border border-slate-200 bg-white p-5 shadow-sm">
-                <p className="text-sm font-semibold text-slate-500">Recommendations trend</p>
-                <div className="h-52 pt-4">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <BarChart data={chartData}>
-                      <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                      <XAxis dataKey="name" tick={{ fontSize: 12 }} />
-                      <YAxis tick={{ fontSize: 12 }} />
-                      <Tooltip />
-                      <Bar dataKey="score" radius={[6, 6, 0, 0]} fill="#4f46e5" />
-                    </BarChart>
-                  </ResponsiveContainer>
+              <button
+                onClick={() => setShowInsights(true)}
+                className="group w-full rounded-[1.5rem] border border-indigo-100 bg-indigo-50 p-5 text-left shadow-sm transition hover:border-indigo-300 hover:bg-indigo-100"
+              >
+                <div className="flex items-start justify-between">
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-[0.18em] text-indigo-600">Decision workspace</p>
+                    <p className="mt-2 text-xl font-bold text-slate-900">Open product insights</p>
+                    <p className="mt-1 text-sm text-slate-600">Compare scores, ratings, and review coverage in one focused view.</p>
+                  </div>
+                  <BarChart3 className="text-indigo-600 transition group-hover:scale-110" size={22} />
                 </div>
-              </div>
-
-              <div className="rounded-[1.5rem] border border-slate-200 bg-white p-5 shadow-sm">
-                <div className="flex items-center justify-between">
-                  <p className="text-sm font-semibold text-slate-500">Ratings & review coverage</p>
-                  <span className="text-xs text-slate-400">rating / 5</span>
-                </div>
-                <div className="h-52 pt-4">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <BarChart data={reviewData}>
-                      <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                      <XAxis dataKey="name" tick={{ fontSize: 12 }} />
-                      <YAxis domain={[0, 100]} tick={{ fontSize: 12 }} />
-                      <Tooltip />
-                      <Bar dataKey="rating" radius={[6, 6, 0, 0]} fill="#059669" />
-                    </BarChart>
-                  </ResponsiveContainer>
-                </div>
-                <div className="mt-2 space-y-2">
-                  {results.slice(0, 3).map((item) => (
-                    <div key={item.product_id} className="flex items-center justify-between text-xs text-slate-600">
-                      <span>{item.product_name}</span>
-                      <span>{item.review_count || 0} customer reviews</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
+                <span className="mt-4 inline-flex rounded-xl bg-indigo-600 px-3 py-2 text-sm font-semibold text-white">View insights</span>
+              </button>
 
               <div className="rounded-[1.5rem] border border-slate-200 bg-white p-5 shadow-sm">
                 <p className="text-sm font-semibold text-slate-500">Selected products</p>
@@ -562,6 +539,67 @@ function App() {
           </section>
         ) : null}
       </main>
+      {showInsights ? (
+        <div className="fixed inset-0 z-40 overflow-y-auto bg-slate-950/45 p-4 backdrop-blur-sm md:p-8">
+          <section className="mx-auto max-w-6xl rounded-[2rem] border border-slate-200 bg-slate-50 p-5 shadow-2xl md:p-8">
+            <div className="mb-6 flex items-start justify-between gap-4">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-indigo-600">Decision workspace</p>
+                <h2 className="mt-2 text-3xl font-black text-slate-900">Product insights</h2>
+                <p className="mt-2 text-sm text-slate-600">A focused view of the products returned by your latest live search.</p>
+              </div>
+              <button onClick={() => setShowInsights(false)} title="Close insights" aria-label="Close insights" className="rounded-xl border border-slate-200 bg-white p-2 text-slate-600 hover:border-indigo-300 hover:text-indigo-700"><X size={20} /></button>
+            </div>
+            <div className="grid gap-5 lg:grid-cols-2">
+              <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+                <p className="text-sm font-semibold text-slate-500">Recommendation score</p>
+                <div className="mt-4 h-72">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart data={chartData} margin={{ bottom: 28, left: 4, right: 12 }}>
+                      <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                      <XAxis dataKey="name" angle={-25} textAnchor="end" interval={0} tick={{ fontSize: 11 }} />
+                      <YAxis tick={{ fontSize: 12 }} />
+                      <Tooltip />
+                      <Bar dataKey="score" radius={[6, 6, 0, 0]} fill="#4f46e5" />
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
+              </div>
+              <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+                <div className="flex items-center justify-between">
+                  <p className="text-sm font-semibold text-slate-500">Ratings & review coverage</p>
+                  <span className="text-xs text-slate-400">rating / 5</span>
+                </div>
+                <div className="mt-4 h-72">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart data={reviewData} margin={{ bottom: 28, left: 4, right: 12 }}>
+                      <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                      <XAxis dataKey="name" angle={-25} textAnchor="end" interval={0} tick={{ fontSize: 11 }} />
+                      <YAxis domain={[0, 100]} tick={{ fontSize: 12 }} />
+                      <Tooltip />
+                      <Bar dataKey="rating" radius={[6, 6, 0, 0]} fill="#059669" />
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
+              </div>
+            </div>
+            <div className="mt-5 grid gap-3 md:grid-cols-2">
+              {results.map((item) => (
+                <div key={item.product_id} className="flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm">
+                  <span className="max-w-[70%] truncate font-medium text-slate-700">{item.product_name}</span>
+                  <span className="text-slate-500">{item.review_count || 0} reviews</span>
+                </div>
+              ))}
+            </div>
+          </section>
+        </div>
+      ) : null}
+      <ProductAssistant
+        searchedProduct={query}
+        products={results}
+        parsedRequirements={parsedRequirements}
+        comparison={comparison}
+      />
     </div>
   )
 }

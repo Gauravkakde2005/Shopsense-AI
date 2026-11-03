@@ -4,6 +4,8 @@ from app.services.normalization import deduplicate_products
 from app.services.ranking import parse_search_query, rank_products
 from app.providers.mock_provider import get_mock_products
 from app.workflows.agent_workflow import run_workflow
+from app.services import llm
+from app.main import AssistantBody, assistant_chat
 
 
 def test_query_parsing_extracts_budget_and_brand():
@@ -82,3 +84,33 @@ def test_workflow_returns_parsed_requirements_and_recommendations(monkeypatch):
     assert result["recommendations"]
     assert result["review_analysis"]
     assert result["review_analysis"][0]["reviews_analyzed"] > 0
+
+
+def test_product_assistant_sends_complete_product_context(monkeypatch):
+    captured = {}
+
+    def fake_generate(system, prompt):
+        captured["system"] = system
+        captured["prompt"] = prompt
+        return "context-aware answer"
+
+    monkeypatch.setattr(llm, "_generate", fake_generate)
+    answer = llm.answer_product_question(
+        "phones",
+        [{"product_name": "Phone A", "price_inr": 49999, "offers": [{"retailer_name": "Amazon"}]}],
+        [{"role": "user", "content": "Which is better?"}],
+        {"max_budget": 50000},
+    )
+    assert answer == "context-aware answer"
+    assert '"price_inr": 49999' in captured["prompt"]
+    assert '"offers"' in captured["prompt"]
+    assert "only questions about the currently displayed products" in captured["system"]
+
+
+def test_product_assistant_handles_greeting_without_groq(monkeypatch):
+    def fail_if_called(*args, **kwargs):
+        raise AssertionError("A greeting should not call the LLM")
+
+    monkeypatch.setattr(llm, "_generate", fail_if_called)
+    response = assistant_chat(AssistantBody(messages=[{"role": "user", "content": "hi"}]))
+    assert response["answer"].startswith("I am your AI Product Assistant")

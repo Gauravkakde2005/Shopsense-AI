@@ -110,6 +110,12 @@ def rank_products(products: List[Dict[str, Any]], requirement: Dict[str, Any]) -
             "explanation": "Matches the requested budget and preference profile with verified demo pricing.",
             "retailer_name": product.get("retailer_name", "Demo Retailer"),
             "retailer_url": product.get("retailer_url", product.get("source_product_url")),
+            "description": product.get("description"),
+            "image_url": product.get("image_url"),
+            "attributes": product.get("attributes", {}),
+            "offers": product.get("offers", []),
+            "source_label": product.get("dataset_label", "live_web"),
+            "data_freshness": product.get("retrieval_timestamp"),
         })
     ranked.sort(key=lambda item: item["score"], reverse=True)
     return ranked
